@@ -1,7 +1,9 @@
 from sqlalchemy import create_engine, Column, Integer, String,ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 import os 
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, sessionmaker
+
+#for db transaction, we use session
 
 Current_Dir= os.path.dirname(os.path.realpath(__file__))
 conn= 'sqlite:///'+os.path.join(Current_Dir,'blog.db')
@@ -28,7 +30,7 @@ class Post:
 class User(Base):
     __tablename__='users'
     
-    id=Column(Integer(), Primary_Key=True)
+    id=Column(Integer(), primary_key=True)
     username=Column(String(40), nullable=False)
     email=Column(String(40), nullable=True)
     
@@ -42,7 +44,7 @@ class Post(Base):
     
     __tablename__='posts'
     
-    id=Column(Integer(), Primary_Key=True)
+    id=Column(Integer(), primary_key=True)
     title=Column(String(45), nullable=False)
     content=Column(String(255), nullable=False)
     user_id=Column(Integer(), ForeignKey('users.id'))
@@ -51,5 +53,10 @@ class Post(Base):
         return f"< Post: {self.title}>"
     
     
+
+Base.metadata.create_all(engine)
+
+#we bind objects to the db
+Session = sessionmaker(bind=engine)
 
 
