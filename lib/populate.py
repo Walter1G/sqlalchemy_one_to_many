@@ -36,15 +36,19 @@ posts=[
 user=local_session.query(User).filter(User.id==1).first()
 
 
-for post in posts:
+# for post in posts:
     
-    new_post=Post(
-        title=post['title'],
-        content=post['content'],
-        author=user
-        )
-    local_session.add(new_post)
-    local_session.commit()
+#     new_post=Post(
+#         title=post['title'],
+#         content=post['content'],
+#         author=user
+#         )
+#     local_session.add(new_post)
+#     local_session.commit()
     
-    print(f"Post created____ {post['title']}")
+#     print(f"Post created____ {post['title']}")
 
+post=local_session.query(Post).filter(Post.id==1).first()
+print(post.author)
+
+# print(user.posts)
